@@ -1,0 +1,285 @@
+
+Contents
+SQL Cheat sheet	2
+Categories	2
+DDL : Data Definition Language	2
+DQL : Data Query Language	2
+DML: Data Manipulation Language	2
+DCL : Data Contra Language	2
+TCL : Transaction Control Language	2
+Commands	3
+DDL	3
+DQL	3
+DML	3
+DCL	3
+TCL	3
+Operators	4
+Arithmetic	4
+Bitwise	4
+Comparison	4
+Compound	4
+Logical	4
+Important keywords	4
+Database objects:	5
+CONSTRAINTS	5
+Aggregate functions:	5
+Aggregate keywords	6
+DDL Examples:	6
+CREATE A TABLE.	6
+Adding a new column to the Table	6
+Modifying the data type of existing column	6
+Removing an existing column from the table:	6
+Truncate a table (remove all the data from the table)	7
+Drop a table	7
+DQL Examples:	7
+Fetch all data from a table:	7
+Filter data from a table	7
+Fetch selected columns	7
+Fetch maximum 10 rows	7
+Fetch count of records	8
+Fetch maximum age from students	8
+Fetch minimum age from students	8
+Fetch sum of age from students	8
+Fetch average age from students	8
+Fetch average age from students	8
+Sort (order) fetched records	8
+Sort in descending Order	9
+Fetch from 2 tables	9
+DML examples:	9
+Insert data into a table	9
+Update data (value of a column) of a table.	9
+Delete data (rows) from a table	9
+
+
+
+
+
+
+SQL Cheat sheet
+
+Categories 
+DDL : Data Definition Language 
+DQL : Data Query Language 
+DML: Data Manipulation Language 
+DCL : Data Contra Language 
+TCL : Transaction Control Language 
+
+Commands
+DDL
+•	CREATE 
+•	DROP 
+•	ALTER 
+•	TRUNCATE
+•	RENAME 
+•	COMMENT 
+
+DQL
+•	SELECT 
+
+DML
+•	INSERT 
+•	UPDATE
+•	DELETE 
+•	LOCK CALL 
+•	EXPLAIN PLAN 
+
+DCL:
+•	GRANT 
+•	REVOKE 
+
+TCL:
+•	COMMIT 
+•	ROLLBACK 
+•	SAVEPOINT 
+•	SET TRANSACTION
+
+Operators:
+Arithmetic:
++ - * / %
+Bitwise:
+& | ~
+Comparison:
+ =  <  >  <=  >=  !<  !>  ^=
+Compound:
+ +=  	-=  	/= 	%= 	&= 	|=	^=
+Logical:
+•	AND 
+•	OR
+•	NOT
+•	ANY
+•	SOME
+•	ALL
+•	BETWEEN
+•	IN
+•	EXISTS
+•	LIKE
+•	IS NULL
+•	UNIQUE
+Important keywords
+•	WHERE
+•	DISTINCT
+•	LIMIT
+•	ORDER BY | DESC | ASC
+•	AS
+•	FROM
+•	SET
+•	VALUES
+•	CASE
+•	DEFAULT
+
+Database objects:
+•	TABLE
+•	VIEW
+•	SYNONYM
+•	SEQUENCE
+•	INDEX
+•	TRIGGER
+
+
+
+
+CONSTRAINTS
+
+•	NOT NULL
+•	UNIQUE
+•	PRIMARY KEY
+•	FOREIGN KEY
+•	CHECK
+•	DEFAULT
+
+Aggregate functions:
+•	AVG
+•	COUNT
+•	MAX
+•	MIN
+•	SUM
+
+Aggregate keywords
+•	GROUP BY
+•	HAVING 
+
+DDL Examples:
+
+CREATE A TABLE.
+CREATE TABLE Students(
+ rollno int PRIMARY KEY. 
+Fname varchar(255) NOTNULL,
+Lname varchar(255)
+);
+
+Adding a new column to the Table
+ALTER TABLE students
+ADD email varchar (255)
+
+Modifying the data type of existing column
+ALTER TABLE students
+ALTER COLUMN lname varchar(512);
+
+Removing an existing column from the table:
+ALTER TABLE students
+DROP COLUMN email;
+
+Truncate a table (remove all the data from the table)
+TRUNCATE TABLE students;
+Drop a table
+DROP TABLE students; 
+
+
+DQL Examples:
+
+Fetch all data from a table:
+SELECT * FROM students
+
+Filter data from a table
+SELECT * FROM students
+WHERE rollno > 1234 
+AND age < 15
+
+Fetch selected columns
+SELECT fname, lname
+FROM students
+WHERE rollno > 12345
+AND age < 15
+
+Fetch maximum 10 rows
+SELECT fname, lname
+FROM students
+WHERE  rollno>12345
+AND age<15
+LIMIT 10;
+
+Fetch count of records
+SELECT count(*)
+FROM students
+
+Fetch maximum age from students
+SELECT max(age)
+FROM students
+
+Fetch minimum age from students
+SELECT min(age)
+FROM students
+
+Fetch sum of age from students
+SELECT sum(age)
+FROM students
+
+Fetch average age from students
+SELECT avg(age)
+FROM students
+
+Fetch average age from students
+SELECT avg(age)
+FROM students
+GROUP BY gender;
+
+Sort (order) fetched records
+SELECT fname, lname
+FROM students
+WHERE rollno > 12345
+AND age <15
+ORDER BY gender;
+
+Sort in descending Order
+SELECT fname, lname
+FROM students
+WHERE rollno>12345
+AND age <15
+ORDER BY gender DESC;
+
+Fetch from 2 tables
+SELECT fname, classteacher
+FROM students
+INNER JOIN Section
+ON students.section = section.id
+
+DML examples:
+
+Insert data into a table
+
+INSERT INTO students(rollno, fname, lname)
+VALUES ( 12345, ‘CHRISTIANO’, ‘RONALDO’)
+
+Update data (value of a column) of a table.
+UPDATE students SET lname = “messi”
+WHERE rollno = 1234;
+
+Delete data (rows) from a table
+DELETE FROM students WHERE rollno  = 1234;
+Aggregate and Filter:
+SELECT section, count(*) AS studentcount
+FROM students
+GROUP BY section
+HAVING count(*) > 20
+
+FULL Outer join
+SELECT fname, clsteacher
+FROM Students
+FULL JOIN Section
+ON Students.section = Students.id;
+
+ 
+  
+
+  
+
