@@ -1,0 +1,677 @@
+sqlite>.header on
+sqlite>.mode column
+
+To display the heading and the column in a neat manner.
+
+
+Normal SQL syntax
+ SELECT * FROM Customers;
+
+Most commonly used SQL COMMANDS.
+ 
+SELECT - extracts data from a database
+UPDATE - updates data in a database
+DELETE - deletes data from a database
+INSERT INTO - inserts new data into a database
+CREATE DATABASE - creates a new database
+ALTER DATABASE - modifies a database
+CREATE TABLE - creates a new table
+ALTER TABLE - modifies a table
+DROP TABLE - deletes a table
+CREATE INDEX - creates an index (search key)
+DROP INDEX - deletes an index
+
+SQL CREATE DATABASE
+
+sqlite3 databasename.db
+
+To check weather the databse is created 
+.databases
+
+To CREATE a table
+CREATE TABLE student(
+   ...> ID INT PRIMARY KEY NOT NULL,
+   ...> NAME TEXT NOT NULL,
+   ...> AGE INT NOT NULL,
+   ...> ADDRESS CHAR(50),
+   ...> SALARY REAL
+   ...> );
+
+To check the list of tables
+.tables
+
+To get the complete details about the table(.schema TABLENAME)
+.schema student
+
+DROP TABLE
+
+SQLite DROP TABLE statement is used to remove a table definition and all associated data, indexes, triggers, constraints, and permission specifications for that table.
+
+You have to be careful while using this command because once a table is deleted then all the information available in the table would also be lost forever.
+
+.tables
+
+DROP TABLE table_name
+
+(Example DROP TABLE emp)
+
+===================================================================================================================
+
+INSERT INTO student(ID, NAME, AGE, SALARY) VALUES ( 1, 'GOVIND', 23, 35000);
+INSERT INTO student(ID, NAME, AGE, SALARY) VALUES ( 1, 'PREVAEEN SHARMA', 32, 15000);
+INSERT INTO student(ID, NAME, AGE, SALARY) VALUES ( 2, 'rahul bose', 32, 15000);
+
+SELECT * FROM student;
+
+1|GOVIND|23|35000.0
+1|PREVAEEN SHARMA|32|15000.0
+2|rahul bose|32|15000.0
+
+
+
+================================================================================================================
+SQLite - Expressions
+
+An expression is a combination of one or more values, operators, and SQL functions that evaluate to a value.
+
+SQL expressions are like formulas and they are written in query language. You can also use to query the database for a specific set of data.
+Syntax
+
+Consider the basic syntax of the SELECT statement as follows −
+
+SELECT column1, column2, columnN 
+FROM table_name 
+WHERE [CONDITION | EXPRESSION];
+
+SELECT * FROM student WHERE SALARY >15000 AND NAME = "GOVIND";
+SELECT * FROM student WHERE SALARY NOT IN (15000);
+SELECT * FROM student WHERE SALARY BETWEEN 10000 AND 20000;
+SELECT * FROM student WHERE SALARY NOT IN (15000);
+SELECT * FROM student WHERE AGE >(SELECT AGE FROM student WHERE SALARY > 15000);
+
+=========================================================================================================
+
+Example:
+
+SELECT * FROM student WHERE SALARY = 15000;
+SELECT * FROM student WHERE SALARY = 5000;
+SELECT * FROM student WHERE SALARY > 5000;
+SELECT * FROM student WHERE SALARY < 5000;
+SELECT * FROM student WHERE SALARY <= 15000;
+
+Aggregate functions:
+
+SELECT SUM(SALARY) FROM student;
+SELECT AVG(SALARY) FROM student;
+SELECT MAX(SALARY) FROM student;
+SELECT MIN(SALARY) FROM student;
+SELECT COUNT(*) AS "RECORDS" FROM student;
+SELECT COUNT(SALARY) FROM student;
+
+============================================================================================================
+
+
+The AND Operator
+
+Syntax
+SELECT column1, column2, columnN 
+FROM table_name
+WHERE [condition1] AND [condition2]...AND [conditionN];
+
+SELECT * FROM COMPANY WHERE AGE >= 25 AND SALARY >= 65000;
+
+SELECT * FROM student;
+
+1|GOVIND|23|35000.0
+1|PREVAEEN SHARMA|32|15000.0
+2|rahul bose|32|15000.0
+
+AND & OR CLAUSES
+SELECT * FROM student WHERE ID = 1 AND NAME = "PREVAEEN"
+SELECT * FROM student WHERE NAME IN ("GOVIND" ,"rahul bose");
+SELECT * FROM student WHERE NAME NOT IN ("GOVIND" ,"rahul bose");
+SELECT * FROM student WHERE SALARY BETWEEN 10000 AND 30000;
+SELECT * FROM student WHERE SALARY BETWEEN 10000 AND 45000;
+SELECT NAME FROM student WHERE EXISTS (SELECT SALARY FROM student WHERE SALARY >25000); 
+# IF THE INNER QUERY IS TRUE THE OUTER QUERY WILL DISPLAY ALL THE NAMES IN THE TABLE.
+
+Syntax
+
+SELECT column1, column2, columnN 
+FROM table_name
+WHERE [condition1] OR [condition2]...OR [conditionN]
+
+SELECT * FROM student WHERE SALARY IS 15000 OR NAME IS "GOVIND";
+
+=============================================================================================================
+
+UPDATE 
+
+Syntax:
+
+UPDATE table_name
+SET column1 = value1, column2 = value2...., columnN = valueN
+WHERE [condition];
+
+UPDATE COMPANY SET ADDRESS = 'Texas' WHERE ID = 6;
+
+SELECT * FROM student;
+
+ID  NAME             AGE  SALARY
+--  ---------------  ---  -------
+1   GOVIND           23   35000.0
+1   PREVAEEN SHARMA  32   15000.0
+2   rahul bose       32   15000.0 ( WE ARE GOING TO CHANGE THIS VALUE TO 25000)
+
+UPDATE student SET SALARY = 25000 WHERE ID = 2;
+
+SELECT * FROM student;
+ID  NAME             AGE  SALARY
+--  ---------------  ---  -------
+1   GOVIND           23   35000.0
+1   PREVAEEN SHARMA  32   15000.0
+2   rahul bose       32   25000.0 ( Now the value has been changed to 25000 from 15000)
+
+=========================================================================================================================
+DELETE
+
+SQLite DELETE Query is used to delete the existing records from a table. You can use WHERE clause with DELETE query to delete the selected rows, otherwise all the records would be deleted.
+
+Syntax:
+
+DELETE FROM table_name
+WHERE [condition];
+
+=======
+SELECT * FROM student;
+ID  NAME             AGE  SALARY
+--  ---------------  ---  -------
+1   GOVIND           23   35000.0
+1   PREVAEEN SHARMA  32   15000.0
+2   rahul bose       32   25000.0 ( WE ARE GOING TO DELETE THIS RECORD)
+
+DELETE FROM student WHERE ID =2
+
+SELECT * FROM student;
+ID  NAME             AGE  SALARY
+--  ---------------  ---  -------
+1   GOVIND           23   35000.0
+1   PREVAEEN SHARMA  32   15000.0
+
+The record rahul bose is deleted.
+
+SELECT * FROM names;
+id  NAME
+--  --------------
+1   RAhul Sharma
+2   Praveen Sharma
+3   NAna patekar
+4   Guru govindan
+5   kayal ( THIS VALUE IS GOING TO BE DELETED)
+
+DELETE FROM names WHERE ID = 5;
+
+SELECT * FROM names;
+id  NAME
+--  --------------
+1   RAhul Sharma
+2   Praveen Sharma
+3   NAna patekar
+4   Guru govindan
+
+======================================
+To delete everything from the table
+
+id  NAME
+--  --------------
+1   RAhul Sharma
+2   Praveen Sharma
+3   NAna patekar
+4   Guru govindan
+
+DELETE FROM names;
+
+SELECT * FROM names;( gives us zero records.)
+
+====================================================================================================================
+
+SQLite LIKE operator is used to match text values against a pattern using wildcards. If the search expression can be matched to the pattern expression, the LIKE operator will return true, which is 1. There are two wildcards used in conjunction with the LIKE operator −
+
+    The percent sign (%)
+    The underscore (_)
+
+The percent sign represents zero, one, or multiple numbers or characters. The underscore represents a single number or character. These symbols can be used in combinations.
+
+Syntax
+
+Following is the basic syntax of % and _.
+
+SELECT FROM table_name
+WHERE column LIKE 'XXXX%'
+or 
+SELECT FROM table_name
+WHERE column LIKE '%XXXX%'
+or
+SELECT FROM table_name
+WHERE column LIKE 'XXXX_'
+or
+SELECT FROM table_name
+WHERE column LIKE '_XXXX'
+or
+SELECT FROM table_name
+WHERE column LIKE '_XXXX_'
+============================================
+Examples:
+
+SELECT * FROM student;
+ID  NAME             AGE  SALARY
+--  ---------------  ---  -------
+1   GOVIND           23   35000.0
+1   PREVAEEN SHARMA  32   15000.0
+
+SELECT * FROM student WHERE AGE LIKE "%2";
+ID  NAME             AGE  SALARY
+--  ---------------  ---  -------
+1   PREVAEEN SHARMA  32   15000.0
+
+SELECT * FROM student WHERE AGE LIKE "2%";
+ID  NAME    AGE  SALARY
+--  ------  ---  -------
+1   GOVIND  23   35000.0
+
+SELECT * FROM student WHERE AGE LIKE "2_";
+ID  NAME    AGE  SALARY
+--  ------  ---  -------
+1   GOVIND  23   35000.0
+
+SELECT * FROM student WHERE AGE LIKE "_2";
+ID  NAME             AGE  SALARY
+--  ---------------  ---  -------
+1   PREVAEEN SHARMA  32   15000.0
+
+SELECT * FROM student WHERE NAME LIKE '%O%';
+ID  NAME    AGE  SALARY
+--  ------  ---  -------
+1   GOVIND  23   35000.0
+
+===================================================================
+
+GLOB CLAUSE
+
+SQLite GLOB operator is used to match only text values against a pattern using wildcards. If the search expression can be matched to the pattern expression, the GLOB operator will return true, which is 1. Unlike LIKE operator, GLOB is case sensitive and it follows syntax of UNIX for specifying THE following wildcards.
+
+    The asterisk sign (*)
+    The question mark (?)
+
+The asterisk sign (*) represents zero or multiple numbers or characters. The question mark (?) represents a single number or character.
+
+Syntax:
+
+SELECT FROM table_name
+WHERE column GLOB 'XXXX*'
+or 
+SELECT FROM table_name
+WHERE column GLOB '*XXXX*'
+or
+SELECT FROM table_name
+WHERE column GLOB 'XXXX?'
+or
+SELECT FROM table_name
+WHERE column GLOB '?XXXX'
+or
+SELECT FROM table_name
+WHERE column GLOB '?XXXX?'
+or
+SELECT FROM table_name
+WHERE column GLOB '????'
+
+---------------------------------------------------
+1 	WHERE SALARY GLOB '200*'
+Finds any values that start with 200
+
+2   WHERE SALARY GLOB '*200*'
+Finds any values that have 200 in any position
+
+3   WHERE SALARY GLOB '?00*'
+Finds any values that have 00 in the second and third positions
+
+4   WHERE SALARY GLOB '2??'
+Finds any values that start with 2 and are at least 3 characters in length
+
+5   WHERE SALARY GLOB '*2'
+Finds any values that end with 2
+
+6   WHERE SALARY GLOB '?2*3'
+Finds any values that have a 2 in the second position and end with a 3
+
+7   WHERE SALARY GLOB '2???3'
+Finds any values in a five-digit number that start with 2 and end with 3
+
+---------------------------------------------------
+
+SELECT * FROM COMPANY WHERE AGE  GLOB '2*';
+
+SELECT * FROM student WHERE AGE GLOB '2*';
+ID  NAME    AGE  SALARY
+--  ------  ---  -------
+1   GOVIND  23   35000.0
+
+SELECT * FROM student WHERE AGE GLOB '*2';
+ID  NAME             AGE  SALARY
+--  ---------------  ---  -------
+1   PREVAEEN SHARMA  32   15000.0
+
+==========================================
+A NEW table creted under the table STUDENT
+
+CREATE TABLE STUDENT(
+   ...> ID INT PRIMARY KEY NOT NULL,
+   ...> NAME TEXT NOT NULL,
+   ...> AGE INT NOT NULL,
+   ...> SALARY REAL,
+   ...> ADDR TEXT);
+
+SELECT * FROM STUDENT;
+ID  NAME   AGE  SALARY   ADDR
+--  -----  ---  -------  ----
+1   RAHUL  23   35000.0  HYD
+2   KAVIN  13   15000.0  BGN
+3   GOKUL  32   50000.0  NGP
+4   MANI   35   60000.0  CBN
+
+============================================
+
+LIMTI CLAUSE:
+
+SQLite LIMIT clause is used to limit the data amount returned by the SELECT statement.
+
+Syntax:
+
+SELECT column1, column2, columnN 
+FROM table_name
+LIMIT [no of rows]
+
+Following is the syntax of LIMIT clause when it is used along with OFFSET clause.
+
+SELECT column1, column2, columnN 
+FROM table_name
+LIMIT [no of rows] OFFSET [row num]
+
+
+SELECT * FROM STUDENT;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+1   RAHUL     23   35000.0   HYD
+2   KAVIN     13   15000.0   BGN
+3   GOKUL     32   50000.0   NGP
+4   MANI      35   60000.0   CBN
+5   KANTHESH  55   100000.0  CHN
+6   KAMALESH  35   150000.0  TUP
+
+SELECT * FROM STUDENT LIMIT 3;
+ID  NAME   AGE  SALARY   ADDR
+--  -----  ---  -------  ----
+1   RAHUL  23   35000.0  HYD
+2   KAVIN  13   15000.0  BGN
+3   GOKUL  32   50000.0  NGP
+
+SELECT * FROM STUDENT LIMIT 3 OFFSET 3;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+4   MANI      35   60000.0   CBN
+5   KANTHESH  55   100000.0  CHN
+6   KAMALESH  35   150000.0  TUP
+
+================================================================================================================
+
+ORDER BY Clause:
+
+SQLite ORDER BY clause is used to sort the data in an ascending or descending order, based on one or more columns.
+Syntax
+
+Following is the basic syntax of ORDER BY clause.
+
+SELECT column-list 
+FROM table_name 
+[WHERE condition] 
+[ORDER BY column1, column2, .. columnN] [ASC | DESC];
+
+
+======================================
+
+SELECT * FROM STUDENT;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+1   RAHUL     23   35000.0   HYD
+2   KAVIN     13   15000.0   BGN
+3   GOKUL     32   50000.0   NGP
+4   MANI      35   60000.0   CBN
+5   KANTHESH  55   100000.0  CHN
+6   KAMALESH  35   150000.0  TUP
+
+-------------------------------------
+
+SELECT * FROM STUDENT ORDER BY NAME ASC;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+3   GOKUL     32   50000.0   NGP
+6   KAMALESH  35   150000.0  TUP
+5   KANTHESH  55   100000.0  CHN
+2   KAVIN     13   15000.0   BGN
+4   MANI      35   60000.0   CBN
+1   RAHUL     23   35000.0   HYD
+
+----------------------------------------
+
+SELECT * FROM STUDENT ORDER BY ADDR ASC;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+2   KAVIN     13   15000.0   BGN
+4   MANI      35   60000.0   CBN
+5   KANTHESH  55   100000.0  CHN
+1   RAHUL     23   35000.0   HYD
+3   GOKUL     32   50000.0   NGP
+6   KAMALESH  35   150000.0  TUP
+------------------------------------------
+
+SELECT * FROM STUDENT ORDER BY NAME DESC;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+1   RAHUL     23   35000.0   HYD
+4   MANI      35   60000.0   CBN
+2   KAVIN     13   15000.0   BGN
+5   KANTHESH  55   100000.0  CHN
+6   KAMALESH  35   150000.0  TUP
+3   GOKUL     32   50000.0   NGP
+
+-------------------------------------------
+SELECT * FROM STUDENT ORDER BY NAME, ADDR ASC;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+3   GOKUL     32   50000.0   NGP
+6   KAMALESH  35   150000.0  TUP
+5   KANTHESH  55   100000.0  CHN
+2   KAVIN     13   15000.0   BGN
+4   MANI      35   60000.0   CBN
+1   RAHUL     23   35000.0   HYD
+
+==================================================================================================================
+
+GROUP BY Clause
+
+SQLite GROUP BY clause is used in collaboration with the SELECT statement to arrange identical data into groups.
+
+GROUP BY clause follows the WHERE clause in a SELECT statement and precedes the ORDER BY clause.
+Syntax
+
+Following is the basic syntax of GROUP BY clause. GROUP BY clause must follow the conditions in the WHERE clause and must precede ORDER BY clause if one is used.
+
+SELECT column-list
+FROM table_name
+WHERE [ conditions ]
+GROUP BY column1, column2....columnN
+ORDER BY column1, column2....columnN
+
+You can use more than one column in the GROUP BY clause. Make sure whatever column you are using to group, that column should be available in the column-list.
+
+SELECT * FROM STUDENT GROUP BY NAME;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+3   GOKUL     32   50000.0   NGP
+6   KAMALESH  35   150000.0  TUP
+5   KANTHESH  55   100000.0  CHN
+2   KAVIN     13   15000.0   BGN
+4   MANI      35   60000.0   CBN
+1   RAHUL     23   35000.0   HYD
+
+
+SELECT * FROM STUDENT GROUP BY NAME, AGE;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+3   GOKUL     32   50000.0   NGP
+6   KAMALESH  35   150000.0  TUP
+5   KANTHESH  55   100000.0  CHN
+2   KAVIN     13   15000.0   BGN
+4   MANI      35   60000.0   CBN
+1   RAHUL     23   35000.0   HYD
+
+
+SELECT * FROM STUDENT GROUP BY NAME, AGE, SALARY;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+3   GOKUL     32   50000.0   NGP
+6   KAMALESH  35   150000.0  TUP
+5   KANTHESH  55   100000.0  CHN
+2   KAVIN     13   15000.0   BGN
+4   MANI      35   60000.0   CBN
+1   RAHUL     23   35000.0   HYD
+
+SELECT NAME, SUM(SALARY) FROM STUDENT GROUP BY NAME;
+NAME      SUM(SALARY)
+--------  -----------
+GOKUL     50000.0
+KAMALESH  150000.0
+KANTHESH  100000.0
+KAVIN     15000.0
+MANI      60000.0
+RAHUL     35000.0
+
+SELECT NAME, SUM(SALARY) FROM STUDENT GROUP BY NAME ORDER BY NAME ASC;
+NAME      SUM(SALARY)
+--------  -----------
+GOKUL     50000.0
+KAMALESH  150000.0
+KANTHESH  100000.0
+KAVIN     15000.0
+MANI      60000.0
+RAHUL     35000.0
+
+
+===================================================================================================================
+HAVING Clause
+
+HAVING clause enables you to specify conditions that filter which group results appear in the final results.
+
+The WHERE clause places conditions on the selected columns, whereas the HAVING clause places conditions on groups created by GROUP BY clause.
+Syntax
+
+Following is the position of HAVING clause in a SELECT query.
+
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+
+HAVING clause must follow GROUP BY clause in a query and must also precede ORDER BY clause if used. Following is the syntax of the SELECT statement, including HAVING clause.
+
+SELECT column1, column2
+FROM table1, table2
+WHERE [ conditions ]
+GROUP BY column1, column2
+HAVING [ conditions ]
+ORDER BY column1, column2
+=======================================================================
+
+DISTINCT KEYWORD
+
+SQLite DISTINCT keyword is used in conjunction with SELECT statement to eliminate all the duplicate records and fetching only the unique records.
+
+There may be a situation when you have multiple duplicate records in a table. While fetching such records, it makes more sense to fetch only unique records instead of fetching duplicate records.
+Syntax
+
+Following is the basic syntax of DISTINCT keyword to eliminate duplicate records.
+
+SELECT DISTINCT column1, column2,.....columnN 
+FROM table_name
+WHERE [condition]
+
+===========================================
+
+SELECT * FROM STUDENT;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+1   RAHUL     23   35000.0   HYD
+2   KAVIN     13   15000.0   BGN
+3   GOKUL     32   50000.0   NGP
+4   MANI      35   60000.0   CBN
+5   KANTHESH  55   100000.0  CHN
+6   KAMALESH  35   150000.0  TUP
+
+
+USING DISTINCT
+
+SELECT DISTINCT SALARY, * FROM STUDENT;
+   
+SALARY    ID  NAME      AGE  SALARY    ADDR
+--------  --  --------  ---  --------  ----
+35000.0   1   RAHUL     23   35000.0   HYD
+15000.0   2   KAVIN     13   15000.0   BGN
+50000.0   3   GOKUL     32   50000.0   NGP
+60000.0   4   MANI      35   60000.0   CBN
+100000.0  5   KANTHESH  55   100000.0  CHN
+150000.0  6   KAMALESH  35   150000.0  TUP
+sqlite> SELECT * FROM SALARY
+
+
+====================================================
+SELECT NAME FROM STUDENT;
+NAME
+--------
+RAHUL
+KAVIN
+GOKUL
+MANI
+KANTHESH
+KAMALESH
+RAHUL
+RAHUL
+RAHUL
+
+=======================================================
+SELECT * FROM STUDENT;
+ID  NAME      AGE  SALARY    ADDR
+--  --------  ---  --------  ----
+1   RAHUL     23   35000.0   HYD
+2   KAVIN     13   15000.0   BGN
+3   GOKUL     32   50000.0   NGP
+4   MANI      35   60000.0   CBN
+5   KANTHESH  55   100000.0  CHN
+6   KAMALESH  35   150000.0  TUP
+7   RAHUL     23   35000.0   HYD
+8   RAHUL     23   35000.0   HYD
+9   RAHUL     23   35000.0   HYD
+=======================================================
+
+SELECT DISTINCT NAME FROM STUDENT;
+NAME
+--------
+RAHUL
+KAVIN
+GOKUL
+MANI
+KANTHESH
+KAMALESH
+
+========================================================
